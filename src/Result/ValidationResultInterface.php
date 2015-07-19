@@ -13,9 +13,11 @@ use JsonSerializable;
 use Serializable;
 
 /**
- * A validation result is an object that holds the result of the validation against
- * a single validator, and contains all the error messages that may have been
- * generated.
+ * This interface provide methods for to know the result of a validation and the reasons when the result is not valid
+ *
+ * This interface resolve the following questions:
+ *    - Is the result valid?
+ *    - If not, Why is not valid?
  */
 interface ValidationResultInterface extends Serializable, JsonSerializable
 {
@@ -25,20 +27,6 @@ interface ValidationResultInterface extends Serializable, JsonSerializable
      * @return bool
      */
     public function isValid();
-    
-    /**
-     * Get the original data that was submitted for validation
-     *
-     * @return mixed
-     */
-    public function getData();
-
-    /**
-     * Get the context that was passed as part of the validation process
-     *
-     * @return mixed|null
-     */
-    public function getContext();
 
     /**
      * Get the raw error messages (in those messages, variables are not injected, useful for translation)

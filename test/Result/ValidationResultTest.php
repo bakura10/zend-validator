@@ -8,9 +8,7 @@ class ValidationResultTest extends \PHPUnit_Framework_TestCase
 {
     public function testValidationResultCanBeCreatedWithoutError()
     {
-        $validationResult = new ValidationResult('data', 'context');
-        $this->assertEquals('data', $validationResult->getData());
-        $this->assertEquals('context', $validationResult->getContext());
+        $validationResult = new ValidationResult();
         $this->assertEmpty($validationResult->getMessages());
         $this->assertEmpty($validationResult->getRawMessages());
         $this->assertEmpty($validationResult->getMessagesVariables());
@@ -19,7 +17,7 @@ class ValidationResultTest extends \PHPUnit_Framework_TestCase
 
     public function testStringErrorIsConvertedToArray()
     {
-        $validationResult = new ValidationResult('data', 'context', 'An error message');
+        $validationResult = new ValidationResult('An error message');
         $this->assertInternalType('array', $validationResult->getRawMessages());
         $this->assertCount(1, $validationResult->getRawMessages());
         $this->assertCount(1, $validationResult->getMessages());
@@ -27,7 +25,7 @@ class ValidationResultTest extends \PHPUnit_Framework_TestCase
 
     public function testCanGetErrorMessagesWithoutInterpolation()
     {
-        $validationResult = new ValidationResult('data', 'context', 'An error message');
+        $validationResult = new ValidationResult('An error message');
         $expected         = ['An error message'];
 
         $this->assertEquals($expected, $validationResult->getMessages());
@@ -36,7 +34,7 @@ class ValidationResultTest extends \PHPUnit_Framework_TestCase
 
     public function testCanInterpolate()
     {
-        $validationResult    = new ValidationResult('data', 'context', 'Length must be %min%', ['%min%' => 4]);
+        $validationResult    = new ValidationResult('Length must be %min%', ['%min%' => 4]);
         $expectedRaw         = ['Length must be %min%'];
         $expectedInterpolate = ['Length must be 4'];
 
@@ -48,8 +46,6 @@ class ValidationResultTest extends \PHPUnit_Framework_TestCase
     public function testCanInterpolateComplex()
     {
         $validationResult = new ValidationResult(
-            'data',
-            'context',
             ['Length must be %min%', 'Does not validate %pattern%'],
             ['%min%' => 4, '%pattern%' => 'abc']
         );
@@ -64,25 +60,18 @@ class ValidationResultTest extends \PHPUnit_Framework_TestCase
 
     public function testCanConvertToString()
     {
-        $validationResult = new ValidationResult(
-            'data',
-            'context',
-            ['Message 1', 'Message 2']
-        );
-
+        $validationResult = new ValidationResult(['Message 1', 'Message 2']);
         $this->assertEquals('Message 1, Message 2', (string) $validationResult);
     }
 
     public function testCanSerialize()
     {
-        $validationResult = new ValidationResult('data', 'context', 'Length must be %min%', ['%min%' => 4]);
+        $validationResult = new ValidationResult('Length must be %min%', ['%min%' => 4]);
 
         $serialize   = serialize($validationResult);
         $unserialize = unserialize($serialize);
 
         $this->assertFalse($unserialize->isValid());
-        $this->assertEquals('data', $unserialize->getData());
-        $this->assertEquals('context', $unserialize->getContext());
         $this->assertEquals(['%min%' => 4], $unserialize->getMessagesVariables());
         $this->assertEquals(['Length must be %min%'], $unserialize->getRawMessages());
         $this->assertEquals(['Length must be 4'], $unserialize->getMessages());
@@ -90,7 +79,7 @@ class ValidationResultTest extends \PHPUnit_Framework_TestCase
 
     public function testCanJsonSerialize()
     {
-        $validationResult = new ValidationResult('data', 'context', 'Length must be %min%', ['%min%' => 4]);
+        $validationResult = new ValidationResult('Length must be %min%', ['%min%' => 4]);
         $json             = json_encode($validationResult);
 
         $this->assertEquals('["Length must be 4"]', $json);

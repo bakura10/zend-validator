@@ -103,7 +103,7 @@ final class ValidatorChain implements ValidatorInterface, Countable
             }
         }
 
-        return new ValidationResult($data, $context, $errorMessages, $messageVariables);
+        return new ValidationResult($errorMessages, $messageVariables);
     }
 
     /**

@@ -15,16 +15,6 @@ namespace Zend\Validator\Result;
 class ValidationResult implements ValidationResultInterface
 {
     /**
-     * @var mixed
-     */
-    protected $data;
-
-    /**
-     * @var mixed|null
-     */
-    protected $context;
-
-    /**
      * @var string[]
      */
     protected $rawMessages = [];
@@ -37,15 +27,11 @@ class ValidationResult implements ValidationResultInterface
     /**
      * Constructor
      *
-     * @param mixed        $data
-     * @param mixed|null   $context
      * @param string|array $rawMessages
      * @param array        $messagesVariables
      */
-    public function __construct($data, $context = null, $rawMessages = [], array $messagesVariables = [])
+    public function __construct($rawMessages = [], array $messagesVariables = [])
     {
-        $this->data              = $data;
-        $this->context           = $context;
         $this->rawMessages       = (array) $rawMessages;
         $this->messagesVariables = $messagesVariables;
     }
@@ -56,22 +42,6 @@ class ValidationResult implements ValidationResultInterface
     public function isValid()
     {
         return empty($this->rawMessages);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getContext()
-    {
-        return $this->context;
     }
 
     /**
@@ -120,8 +90,6 @@ class ValidationResult implements ValidationResultInterface
     public function serialize()
     {
         return serialize([
-            'data'               => $this->getData(),
-            'context'            => $this->getContext(),
             'raw_messages'       => $this->getRawMessages(),
             'messages_variables' => $this->getMessagesVariables()
         ]);
@@ -137,8 +105,6 @@ class ValidationResult implements ValidationResultInterface
     {
         $object = unserialize($serialized);
 
-        $this->data              = $object['data'];
-        $this->context           = $object['context'];
         $this->rawMessages       = $object['raw_messages'];
         $this->messagesVariables = $object['messages_variables'];
     }
