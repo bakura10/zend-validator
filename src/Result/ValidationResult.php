@@ -93,8 +93,6 @@ class ValidationResult implements ValidationResultInterface
             return $this->rawMessages;
         }
 
-        // We use simple regex here to inject variables into the error messages. Each variable
-        // is surrounded by percent sign (eg.: %min%)
         $keys          = array_keys($this->messagesVariables);
         $values        = array_values($this->messagesVariables);
         $errorMessages = [];
