@@ -63,7 +63,7 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * {@inheritdoc}
      */
-    function __invoke($data, $context = null)
+    public function __invoke($data, $context = null)
     {
         return $this->validate($data, $context);
     }
@@ -73,27 +73,27 @@ abstract class AbstractValidator implements ValidatorInterface
      *
      * @param  mixed        $data The data that failed validation
      * @param  mixed|null   $context Additional context used for validation
-     * @param  string|array $keys The keys of the error message template
+     * @param  string|array $errorKeys The keys of the error message template
      * @throws Exception\InvalidArgumentException
      * @return Result\ValidationResultInterface
      */
-    protected function buildValidationResult($data, $context, $keys)
+    protected function buildValidationResult($data, $context, $errorKeys)
     {
         // We cast to array to keep the same logic, as some validator may throw
         // two error messages
-        $keys          = (array) $keys;
+        $errorKeys          = (array) $errorKeys;
         $errorMessages = [];
 
-        foreach ($keys as $key) {
-            if (!isset($this->messageTemplates[$key])) {
+        foreach ($errorKeys as $errorKey) {
+            if (!isset($this->messageTemplates[$errorKey])) {
                 throw new Exception\InvalidArgumentException(sprintf(
                     'No error message template was found for key "%s" in %s',
-                    $key,
+                    $errorKey,
                     __CLASS__
                 ));
             }
 
-            $errorMessages[] = $this->messageTemplates[$key];
+            $errorMessages[] = $this->messageTemplates[$errorKey];
         }
 
         $variables = [];
