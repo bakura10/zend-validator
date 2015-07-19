@@ -36,7 +36,7 @@ final class ValidatorChain implements ValidatorInterface, Countable
      *
      *      $chain = new ValidatorChain([
      *          $validatorInstance,
-     *          [$validatorInstance, '2'] // with a priority of 2
+     *          [$validatorInstance, 2] // with a priority of 2
      *      ]);
      *
      * @param array $validators
