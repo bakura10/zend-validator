@@ -35,11 +35,18 @@ interface ValidationResultInterface extends Serializable, JsonSerializable
     public function merge(ValidationResultInterface $validationResult);
     
     /**
-     * Get the data
+     * Get the original data that was submitted for validation
      *
      * @return mixed
      */
     public function getData();
+
+    /**
+     * Get the context that was passed as part of the validation process
+     *
+     * @return mixed|null
+     */
+    public function getContext();
 
     /**
      * Get the raw error messages (in those messages, variables are not injected, useful for translation)
