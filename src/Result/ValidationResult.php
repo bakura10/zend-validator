@@ -25,12 +25,12 @@ class ValidationResult implements ValidationResultInterface
     protected $context;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $rawMessages = [];
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $messagesVariables = [];
 
@@ -56,16 +56,6 @@ class ValidationResult implements ValidationResultInterface
     public function isValid()
     {
         return empty($this->rawMessages);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function merge(ValidationResultInterface $validationResult)
-    {
-        // We don't want to "merge" data because a validation holds data for a single validator
-        $this->rawMessages       = array_merge($this->rawMessages, $validationResult->getRawMessages());
-        $this->messagesVariables = array_merge($this->messagesVariables, $validationResult->getMessagesVariables());
     }
 
     /**
@@ -163,5 +153,15 @@ class ValidationResult implements ValidationResultInterface
     public function jsonSerialize()
     {
         return $this->getMessages();
+    }
+
+    /**
+     * Get all the error messages as a string
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return implode(', ', $this->getMessages());
     }
 }

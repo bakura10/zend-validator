@@ -25,14 +25,6 @@ interface ValidationResultInterface extends Serializable, JsonSerializable
      * @return bool
      */
     public function isValid();
-
-    /**
-     * Merge one validation result with another
-     *
-     * @param  ValidationResultInterface $validationResult
-     * @return void
-     */
-    public function merge(ValidationResultInterface $validationResult);
     
     /**
      * Get the original data that was submitted for validation
@@ -51,14 +43,14 @@ interface ValidationResultInterface extends Serializable, JsonSerializable
     /**
      * Get the raw error messages (in those messages, variables are not injected, useful for translation)
      *
-     * @return array
+     * @return string[]
      */
     public function getRawMessages();
 
     /**
      * Get the error messages (with the variables replaced) associated with the validation result
      *
-     * @return array
+     * @return string[]
      */
     public function getMessages();
 

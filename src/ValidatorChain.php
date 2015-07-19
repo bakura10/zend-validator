@@ -92,17 +92,18 @@ final class ValidatorChain implements ValidatorInterface, Countable
             $this->isSorted = true;
         }
 
-        $validationResult = new ValidationResult($data);
+        $errorMessages = $messageVariables = [];
 
         foreach ($this->validators as $validator) {
-            $innerValidationResult = $validator->validate($data, $context);
+            $validationResult = $validator->validate($data, $context);
 
-            if (!$innerValidationResult->isValid()) {
-                $validationResult->merge($innerValidationResult);
+            if (!$validationResult->isValid()) {
+                $errorMessages    = array_merge($errorMessages, $validationResult->getRawMessages());
+                $messageVariables = array_merge($messageVariables, $validationResult->getMessagesVariables());
             }
         }
 
-        return $validationResult;
+        return new ValidationResult($data, $context, $errorMessages, $messageVariables);
     }
 
     /**

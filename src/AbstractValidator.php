@@ -72,11 +72,12 @@ abstract class AbstractValidator implements ValidatorInterface
      * Build a validation result based on the error key
      *
      * @param  mixed        $data The data that failed validation
+     * @param  mixed|null   $context Additional context used for validation
      * @param  string|array $keys The keys of the error message template
      * @throws Exception\InvalidArgumentException
      * @return Result\ValidationResultInterface
      */
-    protected function buildValidationResult($data, $keys)
+    protected function buildValidationResult($data, $context, $keys)
     {
         // We cast to array to keep the same logic, as some validator may throw
         // two error messages
@@ -103,6 +104,6 @@ abstract class AbstractValidator implements ValidatorInterface
             $variables[$variableKey] = $this->$property;
         }
 
-        return new ValidationResult($data, $errorMessages, $variables);
+        return new ValidationResult($data, $context, $errorMessages, $variables);
     }
 }
