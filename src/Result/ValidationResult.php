@@ -54,19 +54,19 @@ class ValidationResult implements ValidationResultInterface
     /**
      * {@inheritDoc}
      */
-    public function getData()
+    public function merge(ValidationResultInterface $validationResult)
     {
-        return $this->data;
+        // We don't want to "merge" data because a validation holds data for a single validator
+        $this->rawMessages       = array_merge($this->rawMessages, $validationResult->getRawMessages());
+        $this->messagesVariables = array_merge($this->messagesVariables, $validationResult->getMessagesVariables());
     }
 
     /**
      * {@inheritDoc}
      */
-    public function merge(ValidationResultInterface $validationResult)
+    public function getData()
     {
-        // We don't want to "merge" data because a validation holds data for a single validator
-        $this->rawMessages      = array_merge($this->rawMessages, $validationResult->getRawMessages());
-        $this->messagesVariables = array_merge($this->messagesVariables, $validationResult->getMessagesVariables());
+        return $this->data;
     }
 
     /**

@@ -27,19 +27,19 @@ interface ValidationResultInterface extends Serializable, JsonSerializable
     public function isValid();
 
     /**
-     * Get the data
-     *
-     * @return mixed
-     */
-    public function getData();
-
-    /**
      * Merge one validation result with another
      *
      * @param  ValidationResultInterface $validationResult
      * @return void
      */
     public function merge(ValidationResultInterface $validationResult);
+    
+    /**
+     * Get the data
+     *
+     * @return mixed
+     */
+    public function getData();
 
     /**
      * Get the raw error messages (in those messages, variables are not injected, useful for translation)
