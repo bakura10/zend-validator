@@ -79,7 +79,7 @@ abstract class AbstractValidator implements ValidatorInterface
     {
         // We cast to array to keep the same logic, as some validator may throw
         // two error messages
-        $errorKeys          = (array) $errorKeys;
+        $errorKeys     = (array) $errorKeys;
         $errorMessages = [];
 
         foreach ($errorKeys as $errorKey) {
